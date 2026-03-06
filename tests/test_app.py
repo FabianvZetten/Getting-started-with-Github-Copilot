@@ -59,3 +59,17 @@ def test_signup_unknown_activity_returns_404(client):
     # Assert
     assert response.status_code == 404
     assert response.json() == {"detail": "Activity not found"}
+
+
+def test_signup_duplicate_student_returns_400(client):
+    # Arrange
+    activity_name = "Chess Club"
+    existing_email = app_module.activities[activity_name]["participants"][0]
+    endpoint = f"/activities/{quote(activity_name, safe='')}/signup"
+
+    # Act
+    response = client.post(endpoint, params={"email": existing_email})
+
+    # Assert
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Student already signed up"}
