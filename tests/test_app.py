@@ -70,6 +70,6 @@ def test_signup_duplicate_student_returns_400(client):
     # Act
     response = client.post(endpoint, params={"email": existing_email})
 
-    # Assert
+    # Assert 
     assert response.status_code == 400
     assert response.json() == {"detail": "Student already signed up"}
